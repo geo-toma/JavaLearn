@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author georges
- *
- */
-module JavaLearn {
-}

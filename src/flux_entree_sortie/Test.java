@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 
 public class Test {
 
@@ -262,6 +264,36 @@ public class Test {
 			while((i = fr.read()) != -1)
 				str1 += (char)i;
 			System.out.println(str1);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void javaNio_() {
+		FileChannel fc;
+		try (FileInputStream fis = new FileInputStream("test0.txt");
+			BufferedInputStream bis = new BufferedInputStream(fis))
+		{
+			long startTime = System.currentTimeMillis();
+			while(bis.read() != -1);
+			System.out.println("le temps de lecture avec le buffer traditionnel : "+(System.currentTimeMillis() - startTime));
+			
+			//fis = new FileInputStream(new File("test0.txt"));
+			fc = fis.getChannel();
+			int size = (int)fc.size();
+			ByteBuffer bBuf = ByteBuffer.allocate(size);
+			
+			startTime = System.currentTimeMillis();
+			fc.read(bBuf);
+			//bBuf.flip();
+			System.out.println("le temps de lecture avec le buffer de java nio est "+(System.currentTimeMillis() - startTime));
+			fc.close();
+			
+			byte[] tab = bBuf.array();
+			System.out.println((char)tab[0]);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

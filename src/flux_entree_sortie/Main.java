@@ -3,8 +3,11 @@ package flux_entree_sortie;
 public class Main {
 
 	public static void main(String[] args) {
-		Test test = new Test();
-		test.javaNio_();
+		Test_Jv_NIO2 ts = new Test_Jv_NIO2();
+		ts.zipFileManage();
+		
+//		Test test = new Test();
+//		test.fisEtFos();
 	}
 
 }
